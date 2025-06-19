@@ -34,6 +34,10 @@
             transform: scale(1.03);
             transition: 0.3s;
         }
+
+        .auth-buttons a {
+            min-width: 150px;
+        }
     </style>
 </head>
 <body>
@@ -81,11 +85,20 @@
             </div>
         </div>
 
+        <!-- زر واتساب -->
         <div class="text-center mt-4">
-            <a href="https://wa.me/966593300742" target="_blank" class="btn btn-success btn-lg">
+            <a href="https://wa.me/966593300742" target="_blank" class="btn btn-success btn-lg mb-3">
                 💬 تواصل معنا على واتساب
             </a>
         </div>
+
+        <!-- أزرار تسجيل الدخول وإنشاء الحساب -->
+        <div class="text-center mt-3 auth-buttons">
+            <a href="/login/" class="btn btn-outline-primary me-2">🔑 تسجيل الدخول</a>
+            <a href="/register/" class="btn btn-light text-dark">📝 إنشاء حساب</a>
+
+        </div>
+
     </div>
 
     {% include 'footer.html' %}
