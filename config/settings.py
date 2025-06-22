@@ -1,16 +1,19 @@
 from pathlib import Path
+from decouple import config
+import dj_database_url
 import os
 
 # المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# المفتاح السري للمشروع (غير آمن للنشر)
-SECRET_KEY = 'django-insecure-xxx'
+# المفتاح السري للمشروع (استخدم env)
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-xxx')
 
-# وضع التطوير (اجعله False في حالة الإنتاج)
-DEBUG = True
+# وضع التطوير
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+# الهوستات المسموح بها
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 # التطبيقات المثبتة
 INSTALLED_APPS = [
@@ -25,9 +28,13 @@ INSTALLED_APPS = [
     'tasks',
     'reports',
     'clients',
+
+    # Cloudinary
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
-# الوسطاء (Middlewares)
+# الوسطاء
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,18 +65,30 @@ TEMPLATES = [
     },
 ]
 
-# إعداد ملف WSGI
+# إعداد WSGI
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # قاعدة البيانات
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DEV_DB_ENGINE', default='django.db.backends.sqlite3'),
+            'NAME': BASE_DIR / config('DEV_DB_NAME', default='db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT', default='5432'),
+        }
+    }
 
-# التحقق من كلمات المرور
+# التحقق من كلمات المرور (تقدر تضيف لاحقاً)
 AUTH_PASSWORD_VALIDATORS = []
 
 # اللغة والتوقيت
@@ -78,8 +97,21 @@ TIME_ZONE = 'Asia/Riyadh'
 USE_I18N = True
 USE_TZ = True
 
-# الملفات الثابتة (مثل CSS و JS)
+# الملفات الثابتة
 STATIC_URL = 'static/'
 
-# المفتاح الأساسي الافتراضي للجداول
+# ملفات الميديا
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# التخزين عبر Cloudinary
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUD_NAME'),
+    'API_KEY': config('API_KEY'),
+    'API_SECRET': config('API_SECRET'),
+}
+
+# إعداد المفتاح الافتراضي
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
