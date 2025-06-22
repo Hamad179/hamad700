@@ -6,7 +6,7 @@ import os
 # المسار الأساسي للمشروع
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# المفتاح السري للمشروع (استخدم env)
+# المفتاح السري للمشروع
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-xxx')
 
 # وضع التطوير
@@ -24,12 +24,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # التطبيقات الخاصة بالمشروع
+    # التطبيقات الخاصة
     'tasks',
     'reports',
     'clients',
 
-    # Cloudinary
+    # التخزين السحابي
     'cloudinary',
     'cloudinary_storage',
 ]
@@ -88,7 +88,7 @@ else:
         }
     }
 
-# التحقق من كلمات المرور (تقدر تضيف لاحقاً)
+# التحقق من كلمات المرور
 AUTH_PASSWORD_VALIDATORS = []
 
 # اللغة والتوقيت
@@ -104,7 +104,7 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# التخزين عبر Cloudinary
+# التخزين السحابي عبر Cloudinary
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
@@ -113,5 +113,5 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': config('API_SECRET'),
 }
 
-# إعداد المفتاح الافتراضي
+# المفتاح الأساسي الافتراضي للجداول
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
