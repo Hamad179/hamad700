@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 # الوسطاء
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ← مهم للملفات الثابتة في الإنتاج
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -98,8 +99,9 @@ USE_I18N = True
 USE_TZ = True
 
 # الملفات الثابتة
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'  # ← مهم جداً
 
 # ملفات الميديا
 MEDIA_URL = '/media/'
