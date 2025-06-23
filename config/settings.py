@@ -99,6 +99,7 @@ USE_TZ = True
 
 # الملفات الثابتة
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # ملفات الميديا
 MEDIA_URL = '/media/'
